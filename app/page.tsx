@@ -8,8 +8,8 @@ import Features from './components/Features'
 import FinalCTA from './components/FinalCTA'
 import Footer from './components/Footer'
 import ScrollProgress from './components/ScrollProgress'
+import CartDrawer from './components/CartDrawer'
 
-// Dynamic import for the heavy canvas hero — avoids SSR issues with canvas/window
 const Hero = dynamic(() => import('./components/Hero'), { ssr: false })
 const Stats = dynamic(() => import('./components/Stats'), { ssr: false })
 
@@ -19,6 +19,7 @@ export default function Page() {
       <RevealController />
       <ScrollProgress />
       <Nav />
+      <CartDrawer />
       <main>
         <Hero />
         <Prologue />

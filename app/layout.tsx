@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Bodoni_Moda, Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
+import { CartProvider } from './context/CartContext'
 
 const bodoni = Bodoni_Moda({
   subsets: ['latin'],
@@ -35,25 +36,16 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${bodoni.variable} ${inter.variable} ${mono.variable}`}
-    >
+    <html lang="en" className={`${bodoni.variable} ${inter.variable} ${mono.variable}`}>
       <head>
-        <link
-          rel="preload"
-          as="image"
-          href="/frames/frame_0001.jpg"
-        />
+        <link rel="preload" as="image" href="/frames/frame_0001.jpg" />
       </head>
       <body className="bg-bg text-ink font-inter overflow-x-hidden">
-        {children}
+        <CartProvider>
+          {children}
+        </CartProvider>
       </body>
     </html>
   )

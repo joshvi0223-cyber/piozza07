@@ -1,10 +1,12 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ArrowUpRight, ShoppingBag } from 'lucide-react'
+import { useCart } from '../context/CartContext'
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
+  const { itemCount, openCart } = useCart()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -40,19 +42,30 @@ export default function Nav() {
           ))}
         </div>
 
-        <a href="#menu" id="nav-order-btn"
-          className="flex items-center gap-1.5 bg-red text-black font-mono text-[11px] tracking-[0.15em] px-3 sm:px-4 py-2 rounded-full hover:bg-red/90 transition-all duration-200 group">
-          <span className="w-1.5 h-1.5 rounded-full bg-black animate-pulse-dot" />
-          <span>ORDER</span><span className="hidden sm:inline">&nbsp;NOW</span>
-          <ArrowUpRight size={12} className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </a>
+        <div className="flex items-center gap-3">
+          <a href="#menu" id="nav-order-btn"
+            className="flex items-center gap-1.5 bg-red text-black font-mono text-[11px] tracking-[0.15em] px-3 sm:px-4 py-2 rounded-full hover:bg-red/90 transition-all duration-200 group">
+            <span className="w-1.5 h-1.5 rounded-full bg-black animate-pulse-dot" />
+            <span>ORDER</span><span className="hidden sm:inline">&nbsp;NOW</span>
+            <ArrowUpRight size={12} className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </a>
+        </div>
       </nav>
 
+      {/* Cart bubble — fixed bottom right */}
       <div className="fixed bottom-6 right-6 z-50">
-        <button id="cart-bubble"
-          className="flex items-center gap-2 bg-red text-black font-mono text-[11px] tracking-[0.1em] h-11 sm:h-12 px-3 sm:px-4 rounded-full shadow-lg shadow-red/20 hover:bg-red/90 transition-all duration-200">
+        <button
+          id="cart-bubble"
+          onClick={openCart}
+          className="relative flex items-center gap-2 bg-red text-black font-mono text-[11px] tracking-[0.1em] h-11 sm:h-12 px-3 sm:px-4 rounded-full shadow-lg shadow-red/20 hover:bg-red/90 transition-all duration-200 hover:scale-105"
+        >
           <ShoppingBag size={14} />
-          <span>CART (0)</span>
+          <span>CART ({itemCount})</span>
+          {itemCount > 0 && (
+            <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-gold text-black font-mono text-[9px] flex items-center justify-center animate-bounce">
+              {itemCount}
+            </span>
+          )}
         </button>
       </div>
     </>
